@@ -3,11 +3,8 @@
 //蛮力法
 //int gcd(int a, int b)
 //{
-//    int f, m = a > b ? b : a;
-//    a = a+b-m;
-//    b = m;
-//
-//    for (f = b; (a % f != 0) || (b % f != 0); --f)
+//    int f;
+//    for (f = a > b ? b : a; (a % f != 0) || (b % f != 0); --f)
 //        ;
 //    return f;
 //}
@@ -16,10 +13,14 @@
 //https://www.jianshu.com/p/61b25e503811
 //int gcd(int a, int b)
 //{
-//    int f = 1, minab = a > b ? b : a;
-//    a = a+b-minab;
-//    b = minab;
+//    if (a < b)
+//    {
+//        a ^= b;
+//        b ^= a;
+//        a ^= b;
+//    }
 //
+//    int f = 1;
 //    for (int i = 2; i <= b; ++i)
 //        while ((a%i == 0) && (b%i == 0))
 //        {
@@ -51,16 +52,16 @@
 //    return b;
 //}
 
-int gcd(int a, int b)
-{
-    while ((a * b) && (a != b))
-        if (a > b)
-            a %= b;
-        else if (a < b)
-            b %= a;
-
-    return a > b ? a : b;
-}
+//int gcd(int a, int b)
+//{
+//    while ((a * b) && (a != b))
+//        if (a > b)
+//            a %= b;
+//        else if (a < b)
+//            b %= a;
+//
+//    return a > b ? a : b;
+//}
 
 //更相减损术/辗转相减法（求最大公约数），即尼考曼彻斯法
 //int gcd(int a, int b)
@@ -89,16 +90,16 @@ int gcd(int a, int b)
 //}
 
 //https://blog.csdn.net/qq_34992845/article/details/53043339
-//int gcd(int a, int b)
-//{
-//    while (a != b)
-//        if (a > b)
-//            a -= b;
-//        else
-//            b -= a;
-//
-//    return b;
-//}
+int gcd(int a, int b)
+{
+    while (a != b)
+        if (a > b)
+            a -= b;
+        else
+            b -= a;
+
+    return b;
+}
 
 int main()
 {
