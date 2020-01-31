@@ -1,96 +1,97 @@
 #include <cstdio>
 
 //蛮力法
-//int gcd(int a, int b)
-//{
-//    int f;
-//    for (f = a > b ? b : a; (a % f != 0) || (b % f != 0); --f)
-//        ;
-//    return f;
-//}
+int gcdForce(int a, int b)
+{
+    int f;
+//    for (f = a > b ? b : a;   (a % f != 0) || (b % f != 0);   --f)
+    for (f = a > b ? b : a;   (a % f) || (b % f);   --f)
+        ;
+    return f;
+}
 
 //短除法
 //https://www.jianshu.com/p/61b25e503811
-//int gcd(int a, int b)
-//{
-//    if (a < b)
-//    {
-//        a ^= b;
-//        b ^= a;
-//        a ^= b;
-//    }
-//
-//    int f = 1;
-//    for (int i = 2; i <= b; ++i)
-//        while ((a%i == 0) && (b%i == 0))
-//        {
-//            f *= i;
-//            a /= i;
-//            b /= i;
-//        }
-//
-//    return f;
-//}
+int gcdDivision(int a, int b)
+{
+    if (a < b)
+    {
+        a ^= b;
+        b ^= a;
+        a ^= b;
+    }
+
+    int f = 1;
+    for (int i = 2; i <= b; ++i)
+        while ((a%i == 0) && (b%i == 0))
+        {
+            f *= i;
+            a /= i;
+            b /= i;
+        }
+
+    return f;
+}
 
 //辗转相除法， 又名欧几里德算法（Euclidean algorithm）
-//int gcd(int a, int b)
-//{
-//    int t;
-//    if (a < b)
-//    {
-//        a ^= b;
-//        b ^= a;
-//        a ^= b;
-//    }
-//    while (a % b != 0)
-//    {
-//        t = a % b;
-//        a = b;
-//        b = t;
-//    }
-//
-//    return b;
-//}
+int gcdEuclidean1(int a, int b)
+{
+    int t;
+    if (a < b)
+    {
+        a ^= b;
+        b ^= a;
+        a ^= b;
+    }
+    while (a % b != 0)
+    {
+        t = a % b;
+        a = b;
+        b = t;
+    }
 
-//int gcd(int a, int b)
-//{
-//    while ((a * b) && (a != b))
-//        if (a > b)
-//            a %= b;
-//        else if (a < b)
-//            b %= a;
-//
-//    return a > b ? a : b;
-//}
+    return b;
+}
+
+int gcdEuclidean2(int a, int b)
+{
+    while ((a * b) && (a != b))     // a * b 表示 a, b 都不等于 0
+        if (a > b)
+            a %= b;
+        else if (a < b)
+            b %= a;
+
+    return a > b ? a : b;
+}
 
 //更相减损术/辗转相减法（求最大公约数），即尼考曼彻斯法
-//int gcd(int a, int b)
-//{
-//    if (a < b)
-//    {
-//        a ^= b;
-//        b ^= a;
-//        a ^= b;
-//    }
-//
-//    int t;
-//    while (a != b)
-//    {
-//        if (a-b >= b)
-//            a -= b;
-//        else
-//        {
-//            t = a-b;
-//            a = b;
-//            b = t;
-//        }
-//    }
-//
-//    return b;
-//}
+int gcdManchester1(int a, int b)
+{
+    if (a < b)
+    {
+        a ^= b;
+        b ^= a;
+        a ^= b;
+    }
+
+    int t;
+    while (a != b)
+    {
+        if (a-b >= b)
+            a -= b;
+        else
+        {
+            t = a-b;
+            a = b;
+            b = t;
+        }
+    }
+
+    return b;
+}
 
 //https://blog.csdn.net/qq_34992845/article/details/53043339
-int gcd(int a, int b)
+int gcdManchester2(int a, int b)
 {
     while (a != b)
         if (a > b)
@@ -103,11 +104,67 @@ int gcd(int a, int b)
 
 int main()
 {
-//    int a = 18, b = 18;
-//    int a = 35, b = 10;
-//    int a = 28, b = 72;
-    int a = 29, b = 17;
-    printf("gcd(%d, %d) = %d", a, b, gcd(a, b));
+    int a, b;
+
+    printf("\n穷举法：\n");
+    a = 108, b = 108;
+    printf("gcd(%d, %d) = %d\t\t", a, b, gcdForce(a, b));
+    a = 108, b = 918;
+    printf("gcd(%d, %d) = %d\t\t", a, b, gcdForce(a, b));
+    a = 518, b = 108;
+    printf("gcd(%d, %d) = %d\t\t", a, b, gcdForce(a, b));
+    a = 87527, b = 6099;
+    printf("gcd(%d, %d) = %d\n", a, b, gcdForce(a, b));
+
+    printf("\n短除法：\n");
+    a = 108, b = 108;
+    printf("gcd(%d, %d) = %d\t\t", a, b, gcdDivision(a, b));
+    a = 108, b = 918;
+    printf("gcd(%d, %d) = %d\t\t", a, b, gcdDivision(a, b));
+    a = 518, b = 108;
+    printf("gcd(%d, %d) = %d\t\t", a, b, gcdDivision(a, b));
+    a = 87527, b = 6099;
+    printf("gcd(%d, %d) = %d\n", a, b, gcdDivision(a, b));
+
+    printf("\n辗转相除法：\n");
+    a = 108, b = 108;
+    printf("gcd(%d, %d) = %d\t\t", a, b, gcdEuclidean1(a, b));
+    a = 108, b = 918;
+    printf("gcd(%d, %d) = %d\t\t", a, b, gcdEuclidean1(a, b));
+    a = 518, b = 108;
+    printf("gcd(%d, %d) = %d\t\t", a, b, gcdEuclidean1(a, b));
+    a = 87527, b = 6099;
+    printf("gcd(%d, %d) = %d\n", a, b, gcdEuclidean1(a, b));
+
+    printf("\n辗转相除法：\n");
+    a = 108, b = 108;
+    printf("gcd(%d, %d) = %d\t\t", a, b, gcdEuclidean2(a, b));
+    a = 108, b = 918;
+    printf("gcd(%d, %d) = %d\t\t", a, b, gcdEuclidean2(a, b));
+    a = 518, b = 108;
+    printf("gcd(%d, %d) = %d\t\t", a, b, gcdEuclidean2(a, b));
+    a = 87527, b = 6099;
+    printf("gcd(%d, %d) = %d\n", a, b, gcdEuclidean2(a, b));
+
+    printf("\n辗转相减法：\n");
+    a = 108, b = 108;
+    printf("gcd(%d, %d) = %d\t\t", a, b, gcdManchester1(a, b));
+    a = 108, b = 918;
+    printf("gcd(%d, %d) = %d\t\t", a, b, gcdManchester1(a, b));
+    a = 518, b = 108;
+    printf("gcd(%d, %d) = %d\t\t", a, b, gcdManchester1(a, b));
+    a = 87527, b = 6099;
+    printf("gcd(%d, %d) = %d\n", a, b, gcdManchester1(a, b));
+
+    printf("\n辗转相减法：\n");
+    a = 108, b = 108;
+    printf("gcd(%d, %d) = %d\t\t", a, b, gcdManchester2(a, b));
+    a = 108, b = 918;
+    printf("gcd(%d, %d) = %d\t\t", a, b, gcdManchester2(a, b));
+    a = 518, b = 108;
+    printf("gcd(%d, %d) = %d\t\t", a, b, gcdManchester2(a, b));
+    a = 87527, b = 6099;
+    printf("gcd(%d, %d) = %d\n", a, b, gcdManchester2(a, b));
 
     getchar();
     return 0;
