@@ -1,0 +1,36 @@
+//C++11 以前的标准：
+//printf:
+//%f -> float
+//%lf -> double.
+//
+//scanf:
+//%f -> float
+//%lf -> double
+//
+//
+//C++11 及以后的标准：
+//printf:
+//%f -> double
+//%Lf -> long double.
+//
+//scanf:
+//%f -> float
+//%lf -> double
+//%Lf -> long double.
+
+#include <cstdio>
+
+int main()
+{
+    double d1, d2, d3, d4;
+
+    scanf("%lf%lf%f%f", &d1, &d2, &d3, &d4);
+    printf("%f, %lf, %f, %lf\n", d1, d2, d3, d4);
+
+//    scanf("%lf", &d1);
+//    printf("%f", d1);
+
+    getchar();
+    getchar();
+    return 0;
+}
